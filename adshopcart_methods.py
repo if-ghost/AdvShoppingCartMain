@@ -81,7 +81,7 @@ def create_new_user():
 
     # Register
     driver.find_element(By.ID, 'register_btnundefined').click()
-    sleep (1)
+    sleep(1)
 
     # Check that new user was created
     if driver.current_url == 'https://advantageonlineshopping.com/#/' and driver.find_element(By.LINK_TEXT, locators.new_username).is_displayed():
@@ -147,6 +147,58 @@ def confirm_account_deletion():
     if driver.find_element(By.XPATH, '//div/label[contains(., "Incorrect user name or password.")]').is_displayed():
         print('User deletion confirmed')
 
+def check_homepage():
+
+    # Check that SPEAKERS, LAPTOPS, TABLETS, HEADPHONES and MICE text are visible.
+    assert driver.find_element(By.XPATH, '//span[contains(., "SPEAKERS")]').is_displayed()
+    assert driver.find_element(By.XPATH, '//span[contains(., "TABLETS")]').is_displayed()
+    assert driver.find_element(By.XPATH, '//span[contains(., "HEADPHONES")]').is_displayed()
+    assert driver.find_element(By.XPATH, '//span[contains(., "LAPTOPS")]').is_displayed()
+    assert driver.find_element(By.XPATH, '//span[contains(., "MICE")]').is_displayed()
+    print("SPEAKERS, LAPTOPS, TABLETS, HEADPHONES and MICE text are visible.")
+
+    driver.find_element(By.XPATH, '//a[contains(., "SPECIAL OFFER")]').click()
+    if driver.find_element(By.XPATH, '//button[contains(., "SEE OFFER")]').is_displayed():
+        print("SPECIAL OFFER button is clickable.")
+    else:
+        print("SPECIAL OFFER button not clickable.")
+
+    driver.find_element(By.XPATH, '//a[contains(., "POPULAR ITEMS")]').click()
+    if driver.find_element(By.XPATH, '//h3[contains(., "POPULAR ITEMS")]').is_displayed():
+        print("SPECIAL OFFER button is clickable.")
+    else:
+        print("SPECIAL OFFER button not clickable.")
+
+    driver.find_element(By.XPATH, '//a[contains(., "CONTACT US")]').click()
+    if driver.find_element(By.XPATH, '//h1[contains(., "CONTACT US")]').is_displayed() and driver.find_element(By.XPATH, '//h3[contains(., "FOLLOW US")]').is_displayed():
+        print("\"CONTACT US\" button is clickable.")
+    else:
+        print("\"CONTACT US\" button not clickable.")
+
+    assert driver.find_element(By.XPATH, '//span[contains(., "dvantage")]') and driver.find_element(By.XPATH, '//span[contains(., "DEMO")]')
+    print("Main logo is displayed.")
+
+    # Check "CONTACT US" form is working.
+    driver.find_element(By.XPATH, '//a[contains(., "CONTACT US")]').click()
+    Select(driver.find_element(By.NAME, "categoryListboxContactUs")).select_by_visible_text("Laptops")
+    sleep(0.5)
+    Select(driver.find_element(By.NAME, "productListboxContactUs")).select_by_visible_text("HP Pavilion 15z Laptop")
+    sleep(0.5)
+    driver.find_element(By.NAME, "emailContactUs").send_keys(locators.new_email)
+    driver.find_element(By.NAME, "subjectTextareaContactUs").send_keys(locators.sentence)
+    sleep(0.5)
+    driver.find_element(By.ID, "send_btnundefined").click()
+
+    # Check "Thank you for contacting Advantage support." message is displayed after submitting the form.
+    # Check CONTINUE SHOPPING button is displayed after submitting the form.
+    assert driver.find_element(By.XPATH, '//p[text() = "Thank you for contacting Advantage support."]').is_displayed()
+    assert driver.find_element(By.XPATH, '//a[text() = " CONTINUE SHOPPING "]').is_displayed()
+    sleep(0.5)
+
+    # Click "CONTINUE SHOPPING".
+    driver.find_element(By.XPATH, '//a[contains(., " CONTINUE SHOPPING ")]').click()
+    sleep(0.5)
+
 
 
 
@@ -156,4 +208,5 @@ def confirm_account_deletion():
 # check_my_account()
 # delete_new_account()
 # confirm_account_deletion()
+# check_homepage()
 

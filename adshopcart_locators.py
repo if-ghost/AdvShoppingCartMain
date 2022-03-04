@@ -12,3 +12,5 @@ phone = fake.phone_number()
 city = fake.city()
 address = fake.street_address().replace('\n', ' ')
 postal_code = fake.postcode()
+sentence = fake.sentence(nb_words=50)
+
